@@ -1,13 +1,13 @@
 package com.eazybytes.cards.service.impl;
 
 import com.eazybytes.cards.constants.CardsConstants;
-import com.eazybytes.cards.dto.CardsDto;
+import com.eazybytes.cards.dto.CardsDTO;
 import com.eazybytes.cards.entity.Cards;
 import com.eazybytes.cards.exception.CardAlreadyExistsException;
 import com.eazybytes.cards.exception.ResourceNotFoundException;
 import com.eazybytes.cards.mapper.CardsMapper;
 import com.eazybytes.cards.repository.CardsRepository;
-import com.eazybytes.cards.service.ICardsService;
+import com.eazybytes.cards.service.CardsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Random;
 
 @Service
 @AllArgsConstructor
-public class CardsServiceImpl implements ICardsService {
+public class CardsServiceImpl implements CardsService {
 
     private CardsRepository cardsRepository;
 
@@ -54,11 +54,11 @@ public class CardsServiceImpl implements ICardsService {
      * @return Card Details based on a given mobileNumber
      */
     @Override
-    public CardsDto fetchCard(String mobileNumber) {
+    public CardsDTO fetchCard(String mobileNumber) {
         Cards cards = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );
-        return CardsMapper.mapToCardsDto(cards, new CardsDto());
+        return CardsMapper.mapToCardsDto(cards, new CardsDTO());
     }
 
     /**
@@ -67,7 +67,7 @@ public class CardsServiceImpl implements ICardsService {
      * @return boolean indicating if the update of card details is successful or not
      */
     @Override
-    public boolean updateCard(CardsDto cardsDto) {
+    public boolean updateCard(CardsDTO cardsDto) {
         Cards cards = cardsRepository.findByCardNumber(cardsDto.getCardNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "CardNumber", cardsDto.getCardNumber()));
         CardsMapper.mapToCards(cardsDto, cards);
