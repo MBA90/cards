@@ -22,7 +22,7 @@ public class CardsMapper {
         cards.setTotalLimit(cardsDto.getTotalLimit());
         cards.setAvailableAmount(cardsDto.getAvailableAmount());
         cards.setAmountUsed(cardsDto.getAmountUsed());
-        return cards;
+        return cards; 
     }
 
 }
