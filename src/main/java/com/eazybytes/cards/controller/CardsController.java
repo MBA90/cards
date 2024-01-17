@@ -7,6 +7,7 @@ import com.eazybytes.cards.service.CardsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class CardsController {
 
-    private CardsService cardsService;
+    private final CardsService cardsService;
+
+    @Value("${build.version}")
+    private String buildversion;
+
+    public CardsController(CardsService cardsService) {
+        this.cardsService = cardsService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createCard(@Valid @RequestParam
@@ -67,6 +74,11 @@ public class CardsController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDTO(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @GetMapping("/build-info")
+    public ResponseEntity<String> fetchAccountDetails() {
+        return ResponseEntity.status(HttpStatus.OK).body(buildversion);
     }
 
 }
