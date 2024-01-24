@@ -2,11 +2,13 @@ package com.eazybytes.cards.controller;
 
 import com.eazybytes.cards.constants.CardsConstants;
 import com.eazybytes.cards.dto.CardsDTO;
+import com.eazybytes.cards.dto.ContactDetailsDTO;
 import com.eazybytes.cards.dto.ResponseDTO;
 import com.eazybytes.cards.service.CardsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,9 @@ public class CardsController {
 
     @Value("${build.version}")
     private String buildversion;
+
+    @Autowired
+    private ContactDetailsDTO contactDetailsDTO;
 
     public CardsController(CardsService cardsService) {
         this.cardsService = cardsService;
@@ -81,4 +86,10 @@ public class CardsController {
         return ResponseEntity.status(HttpStatus.OK).body(buildversion);
     }
 
+    @GetMapping("/contact-info")
+    public ResponseEntity<ContactDetailsDTO> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(contactDetailsDTO);
+    }
 }
