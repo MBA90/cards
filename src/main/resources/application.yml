@@ -20,6 +20,11 @@ spring:
     show-sql: true
   config:
     import: "optional:configserver:http://localhost:8071/"
+  rabbitmq:
+    host: "localhost"
+    port: "5672"
+    username: "guest"
+    password: "guest"
 # Enable actuator to get the actuator refresh path, so that i can read configuration properties in realtime
 management:
   endpoints:
